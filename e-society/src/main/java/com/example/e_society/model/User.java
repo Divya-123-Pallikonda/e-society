@@ -9,12 +9,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
-    private String role; // e.g., "ROLE_ADMIN", "ROLE_USER"
+    @Column(nullable = false)
+    private String role; // ROLE_ADMIN, ROLE_USER
 
     // Getters and Setters
     public int getId() {

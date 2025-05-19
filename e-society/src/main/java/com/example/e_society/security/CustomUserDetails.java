@@ -5,8 +5,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
+/**
+ * Wraps your User entity in a Spring Security UserDetails.
+ */
 public class CustomUserDetails implements UserDetails {
 
     private final User user;
@@ -17,7 +21,8 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
+        // We stored role as a single String (e.g. "ROLE_ADMIN")
+        return List.of(new SimpleGrantedAuthority(user.getRole()));
     }
 
     @Override
@@ -30,21 +35,19 @@ public class CustomUserDetails implements UserDetails {
         return user.getUsername();
     }
 
+    // We’ll treat every account as non-expired, non-locked, and enabled.
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
     @Override
     public boolean isEnabled() {
         return true;
